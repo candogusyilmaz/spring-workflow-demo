@@ -25,7 +25,7 @@ public class WorkflowService {
             var workflowConfiguration = workflowConfigurationRepository.find(entity.getClass().getSimpleName(), id)
                     .orElseThrow(() -> new RuntimeException("Workflow not found"));
 
-            return (Workflow<R>) context.getBean(workflowConfiguration.getWorkflow().getId(), Workflow.class);
+            return context.getBean(workflowConfiguration.getWorkflow().getId(), Workflow.class);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
