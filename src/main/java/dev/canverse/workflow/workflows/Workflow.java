@@ -1,5 +1,5 @@
 package dev.canverse.workflow.workflows;
 
-public interface Workflow {
-    void execute();
+public interface Workflow<T> {
+    void execute(T data);
 }

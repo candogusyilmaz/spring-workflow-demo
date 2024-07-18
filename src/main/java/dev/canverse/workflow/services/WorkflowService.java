@@ -25,10 +25,18 @@ public class WorkflowService {
             var workflowConfiguration = workflowConfigurationRepository.find(entity.getClass().getSimpleName(), id)
                     .orElseThrow(() -> new RuntimeException("Workflow not found"));
 
-            return context.getBean(workflowConfiguration.getWorkflow().getId(), Workflow.class);
+            return (Workflow<R>) context.getBean(workflowConfiguration.getWorkflow().getId(), Workflow.class);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public <T, R> Workflow<R> getWorkflow(T entity, Class<R> dataType) {
+        return getWorkflow(entity);
+    }
+
+    public <T, R> void executeWorkflow(T entity, R data) {
+        getWorkflow(entity).execute(data);
     }
 
     public void synchronize(Set<String> workflowNames) {

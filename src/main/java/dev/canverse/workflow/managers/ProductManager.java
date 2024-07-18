@@ -1,5 +1,6 @@
 package dev.canverse.workflow.managers;
 
+import dev.canverse.workflow.entities.Product;
 import dev.canverse.workflow.repositories.ProductRepository;
 import dev.canverse.workflow.services.WorkflowService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ public class ProductManager {
 
     public void runWorkflow(Long id) {
         var product = productRepository.findById(id).orElseThrow();
-        var workflow = workflowService.getWorkflow(product.getType());
-        workflow.execute();
+        var workflow = workflowService.getWorkflow(product.getType(), Product.class);
+        workflow.execute(product);
     }
 }
