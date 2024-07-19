@@ -19,4 +19,6 @@ public class WorkflowConfiguration {
 
     @ManyToOne(optional = false)
     private WorkflowDefinition workflow;
+
+    private String event;
 }

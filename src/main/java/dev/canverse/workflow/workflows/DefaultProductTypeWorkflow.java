@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 
 @Service("defaultProductWorkflow")
 @RequiredArgsConstructor
-public class DefaultProductWorkflow implements Workflow<Product> {
+public class DefaultProductTypeWorkflow implements Workflow<Product> {
     @Override
     public void execute(Product product) {
-        System.out.println("Executing Default Product Workflow for product: " + product.getName());
+        System.out.println("Executing Default Product Type Workflow for product: " + product.getName());
     }
 }

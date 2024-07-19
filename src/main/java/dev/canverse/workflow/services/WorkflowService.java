@@ -18,11 +18,11 @@ public class WorkflowService {
     private final WorkflowDefinitionRepository workflowDefinitionRepository;
     private final ApplicationContext context;
 
-    public <T> Workflow getWorkflow(T entity) {
+    public <T> Workflow getWorkflow(T entity, String event) {
         try {
             var id = (Long) entity.getClass().getMethod("getId").invoke(entity);
 
-            var workflowConfiguration = workflowConfigurationRepository.find(entity.getClass().getSimpleName(), id)
+            var workflowConfiguration = workflowConfigurationRepository.find(entity.getClass().getSimpleName(), id, event)
                     .orElseThrow(() -> new RuntimeException("Workflow not found"));
 
             return context.getBean(workflowConfiguration.getWorkflow().getId(), Workflow.class);
@@ -31,12 +31,12 @@ public class WorkflowService {
         }
     }
 
-    public <T, R> Workflow<R> getWorkflow(T entity, Class<R> dataType) {
-        return getWorkflow(entity);
+    public <T, R> Workflow<R> getWorkflow(T entity, String event, Class<R> dataType) {
+        return getWorkflow(entity, event);
     }
 
-    public <T, R> void executeWorkflow(T entity, R data) {
-        getWorkflow(entity).execute(data);
+    public <T, R> void executeWorkflow(T entity, String event, R data) {
+        getWorkflow(entity, event).execute(data);
     }
 
     public void synchronize(Set<String> workflowNames) {
